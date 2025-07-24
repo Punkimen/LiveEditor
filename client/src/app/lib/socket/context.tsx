@@ -8,6 +8,7 @@ const SocketContext = createContext(socket);
 
 export const useSocketContecxt = () => {
   const socketContext = useContext(SocketContext);
+
   if (!socketContext) {
     throw new Error('Need to Provide to the SocketProvider');
   }
@@ -22,6 +23,7 @@ export const SocketProvider = ({ children }: { children: ReactNode }) => {
       socket.disconnect();
     };
   }, []);
+
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
   );
