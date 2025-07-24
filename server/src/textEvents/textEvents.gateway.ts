@@ -15,9 +15,10 @@ import { Server, Socket } from 'socket.io';
 export class TextEvents {
   @WebSocketServer()
   server: Server;
+
   @SubscribeMessage('listenText')
   handleEvent(@MessageBody() data: string, @ConnectedSocket() client: Socket) {
-    // console.log('client', client);
+    console.log('client', client);
     console.log('data', data);
     this.server.emit('listenText', data);
   }
