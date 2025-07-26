@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { getAllRoom, createRoom } from './rooms.api';
+import { getAllRoom, createRoom } from '../shared/api/rooms.api';
 
 export const Room = () => {
   useEffect(() => {
