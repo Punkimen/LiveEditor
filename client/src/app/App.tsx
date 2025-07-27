@@ -1,17 +1,15 @@
 import { SocketProvider } from './lib/socket/context';
-import { CodeEditor } from '../codeEditor';
-import { Chat } from '../chat';
-import s from './App.module.css';
-import { Room } from '../rooms';
+import { Link, Outlet } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 function App() {
   return (
     <>
       <SocketProvider>
-        <div className={s.wrapper}>
-          <Room />
-          <CodeEditor />
-          <Chat />
-        </div>
+        <Link to="/create-room">Создать</Link>
+        <Link to="/rooms-list">Присоединиться</Link>
+
+        <Outlet />
+        <TanStackRouterDevtools />
       </SocketProvider>
     </>
   );

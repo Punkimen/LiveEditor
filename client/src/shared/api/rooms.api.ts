@@ -1,5 +1,10 @@
 const URL = 'http://localhost:3000';
 
+interface IRoom {
+  id: string;
+  content: string;
+}
+
 export const createRoom = async () => {
   try {
     const data = await fetch(`${URL}/room/create`, { method: 'POST' });
@@ -18,19 +23,17 @@ export const getAllRoom = async () => {
   }
 };
 
-export const getRoom = async (id: number) => {
+export const getRoom = async (id: string): Promise<IRoom | undefined> => {
   try {
     const data = await fetch(`${URL}/room/${id}`);
-    return await data.json();
+    
+    if(data.status === 200){
+      return await data?.json();
+    }
   } catch (e) {
     console.log('eror', e);
   }
 };
-
-interface IRoom {
-  id: string;
-  content: string;
-}
 
 export const updateRoom = async (body: IRoom) => {
   try {

@@ -8,7 +8,7 @@ export const ChatBody: FC<IChatBodyProps> = (props) => {
   return (
     <div>
       {props.messages.map((el) => {
-        return <div>{el}</div>;
+        return <div key={el}>{el}</div>;
       })}
     </div>
   );

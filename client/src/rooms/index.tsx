@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
-import { getAllRoom, createRoom } from '../shared/api/rooms.api';
+import { createRoom, getRoom } from '../shared/api/rooms.api';
+import { Route } from '../routes/room/$roomId';
 
 export const Room = () => {
+  const { roomId } = Route.useParams();
+
   useEffect(() => {
     const get = async () => {
-      return await getAllRoom();
+      return await getRoom(roomId);
     };
     get().then((data) => console.log(data));
   }, []);
