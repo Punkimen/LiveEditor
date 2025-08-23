@@ -1,29 +1,28 @@
-import { useEffect, useState } from 'react';
 import s from './RoomsList.module.css';
-import { getAllRoom, getRoom } from '../../shared/api/rooms.api';
+import { getAllRoom } from '../../shared/api/rooms.api';
+import { useQuery } from '@tanstack/react-query';
+import { Link } from '@tanstack/react-router';
 
 export const RoomsList = () => {
-  const [data, setData] = useState([]);
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['rooms'],
+    queryFn: getAllRoom,
+  });
 
-  useEffect(() => {
-    const get = async () => {
-      return await getAllRoom();
-    };
-
-    const getOneRoom = async () => {
-      return await getRoom('cf491633-ad6a-4cf8-998f-0fe15f943bd8');
-    };
-
-    get().then((data) => setData(data));
-    getOneRoom().then((data) => console.log(data));
-  }, []);
+  if (error || isLoading) {
+    return isLoading ? 'Загрузка' : 'Ошибка';
+  }
 
   return (
     <div>
       Rooms List
       <ul>
         {data.map((el) => {
-          return <li key={el.id}>{el.id}</li>;
+          return (
+            <li key={el.id}>
+              <Link to={`/room/${el.id}`}>{el.id}</Link>
+            </li>
+          );
         })}
       </ul>
     </div>

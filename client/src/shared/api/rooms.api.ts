@@ -1,6 +1,6 @@
 const URL = 'http://localhost:3000';
 
-interface IRoom {
+export interface IRoom {
   id: string;
   content: string;
 }

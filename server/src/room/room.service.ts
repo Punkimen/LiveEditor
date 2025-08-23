@@ -4,12 +4,19 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class RoomService {
   constructor(private prisma: PrismaService) {}
-  async create() {
+  async create(userId: number) {
     const created = await this.prisma.room.create({
       data: {
         content: '',
+        members: {
+          create: { role: 'ADMIN', userId },
+        },
+      },
+      include: {
+        members: true,
       },
     });
+
     return created;
   }
 
@@ -42,19 +49,17 @@ export class RoomService {
   }
 
   async updateRoom(id: string, content: string) {
-    console.log({ id });
-    console.log({ content });
-
     const room = await this.prisma.room.findFirst({
       where: {
         id: id,
       },
     });
-    console.log({ room });
+
     if (!room) {
       return;
     }
-    await this.prisma.room.update({
+
+    return await this.prisma.room.update({
       data: {
         content,
       },

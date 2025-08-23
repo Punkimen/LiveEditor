@@ -2,12 +2,11 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
   type ReactNode,
 } from 'react';
 import { useSocketContecxt } from '../../app/lib/socket/context';
-import { useQuery } from '../../shared/hooks/useQuery';
+import type { IRoom } from '../../shared/api/rooms.api';
 
 const initData = {
   data: '',
@@ -31,24 +30,24 @@ interface IListenTextData {
   value: string;
 }
 
-export const CodeProvider = ({ children }: { children: ReactNode }) => {
-  const [data, setData] = useState('');
+export const CodeProvider = ({
+  children,
+  room,
+}: {
+  children: ReactNode;
+  room: IRoom;
+}) => {
+  const [data, setData] = useState(room.content);
   const socket = useSocketContecxt();
-
-  const query = useQuery();
-
-  const roomId = useMemo(() => {
-    return query.getQuery('roomid');
-  }, []);
 
   useEffect(() => {
     socket.on('listenText', (data: IListenTextData) => {
       setData(data.value);
     });
-  }, [query]);
+  }, []);
 
   const onChange = (value: string) => {
-    socket.emit('listenText', { value, roomId });
+    socket.emit('listenText', { value, roomId: room.id });
   };
 
   return (
